@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Video Generator</title>
+</head>
+<body style="text-align:center; font-family:Arial;">
+  <h1>🎬 AI Video Generator</h1>
+
+  <input id="text" placeholder="اكتب النص هنا..." style="padding:10px; width:80%;">
+  <br><br>
+
+  <button onclick="generate()">إنشاء فيديو</button>
+
+  <p id="result"></p>
+
+  <script>
+    function generate() {
+      let text = document.getElementById("text").value;
+      document.getElementById("result").innerText = "جارٍ إنشاء الفيديو من: " + text;
+    }
+  </script>
+</body>
+</html>
