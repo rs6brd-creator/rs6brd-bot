@@ -1,23 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>AI Video Generator</title>
-</head>
-<body style="text-align:center; font-family:Arial;">
-  <h1>🎬 AI Video Generator</h1>
+<script>
+async function generate() {
+  const input = document.querySelector("input");
+  const result = document.querySelector("#result");
 
-  <input id="text" placeholder="اكتب النص هنا..." style="padding:10px; width:80%;">
-  <br><br>
+  result.innerText = "⏳ جاري التوليد...";
 
-  <button onclick="generate()">إنشاء فيديو</button>
+  const res = await fetch("/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      text: input.value
+    })
+  });
 
-  <p id="result"></p>
+  const data = await res.json();
 
-  <script>
-    function generate() {
-      let text = document.getElementById("text").value;
-      document.getElementById("result").innerText = "جارٍ إنشاء الفيديو من: " + text;
-    }
-  </script>
-</body>
-</html>
+  if (data.result) {
+    result.innerText = data.result;
+  } else {
+    result.innerText = "❌ صار خطأ";
+  }
+}
+</script>
