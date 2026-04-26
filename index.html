@@ -1,26 +1,69 @@
-<script>
-async function generate() {
-  const input = document.querySelector("input");
-  const result = document.querySelector("#result");
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Video Generator</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      margin-top: 50px;
+    }
+    input {
+      width: 300px;
+      padding: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
 
-  result.innerText = "⏳ جاري التوليد...";
+  <h1>🎬 AI Video Generator</h1>
 
-  const res = await fetch("/generate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      text: input.value
-    })
-  });
+  <input id="input" placeholder="اكتب فكرة الفيديو..." />
+  <br>
+  <button onclick="generate()">إنشاء فيديو</button>
 
-  const data = await res.json();
+  <div id="result"></div>
 
-  if (data.result) {
-    result.innerText = data.result;
-  } else {
-    result.innerText = "❌ صار خطأ";
-  }
-}
-</script>
+  <script>
+    async function generate() {
+      const text = document.getElementById("input").value;
+      const result = document.getElementById("result");
+
+      result.innerText = "⏳ جاري التوليد...";
+
+      try {
+        const res = await fetch("/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ text })
+        });
+
+        const data = await res.json();
+
+        if (data.result) {
+          result.innerText = data.result;
+        } else {
+          result.innerText = "❌ صار خطأ";
+        }
+
+      } catch (err) {
+        result.innerText = "❌ مشكلة في الاتصال";
+      }
+    }
+  </script>
+
+</body>
+</html>
